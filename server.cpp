@@ -183,14 +183,12 @@ void Server::run() {
                     updateGame(clientSocket, readBytes, bytesRead);
                 } catch (int e) {
                     if (disconnectPrevSuccessor) {
-                        debug("YO BITCHES! I'M DISCONNECTING FROM MY PREVIOUS SUCCESSOR");
                         ServerEntry *newSuccessor = myPeers->findSuccessor(myServerEntry);
                         mySuccessorSocket = connectToPeer(newSuccessor->ip, newSuccessor->tcpPort);
                         printf("P2P: connect to suc %d. p2pfd %d \n", newSuccessor->id, mySuccessorSocket);
                         clientSocket = myPrevSuccessorSocket;
                         disconnectPrevSuccessor = false;
                         if (myPrevSuccessorSocket == 0) {
-                            debug("YO BITCHES! MY PREV SUCCESSOR IS ZERO!");
                             clientDataIter++;
                             continue;
                         }
@@ -884,7 +882,6 @@ void Server::disconnectClient(int clientSocket) {
     if (clientDataIter == myClients.end()) {
         on_server_failure();
     }
-    debug("YO BITCHES 2 myPredSocket=%d mySuccSocket=%d myClientSocket=%d", myPredecessorSocket, mySuccessorSocket, clientSocket);
     
     Player *disconnectingPlayer = clientDataIter->second.player;
     if (disconnectingPlayer) {
@@ -892,10 +889,9 @@ void Server::disconnectClient(int clientSocket) {
         broadcastLogoutNotify(disconnectingPlayer->myName, disconnectingPlayer->myHp, disconnectingPlayer->myExp,
             disconnectingPlayer->myLocation.x, disconnectingPlayer->myLocation.y);
         myDungeon->removePlayer(disconnectingPlayer);
-        myFactory->destroyPlayer(disconnectingPlayer);        
+        myFactory->destroyPlayer(disconnectingPlayer);
     }
     if (clientSocket == mySuccessorSocket) {
-        debug("OMG MY SUCCESSOR DIED!!");
         myP2PState = P2P_FIND_NEW_SUCCESSOR;
     }
     
@@ -905,7 +901,6 @@ void Server::disconnectClient(int clientSocket) {
     close(clientSocket);
 
     printf("* Socket closed. fd=%d \n", clientSocket);
-    //printf("killed client at socket %d\n", clientSocket);
 }
 
 Player * Server::playerOfSocket(int clientSocket) {
