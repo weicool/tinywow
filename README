@@ -1,0 +1,21 @@
+EE122 Project 2B - Tiny World of Warcraft
+
+##############
+# AUTHORS ####
+##############
+
+Wei Yeh
+18535857
+ee122-cy
+
+Evelyn Yung
+18948387
+ee122-eq
+
+##############
+# TO RUN #####
+##############
+
+1. Run "gmake" to build server
+2. Run using the command line arguments specified in the project specs
+3. There is no step 3 -- have fun!
